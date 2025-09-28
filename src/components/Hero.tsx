@@ -48,20 +48,20 @@ const Hero = () => {
         </p>
 
         {/* Luxury Search Bar */}
-        <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-6 shadow-strong max-w-4xl mx-auto animate-scale-in opacity-0 animation-delay-1500">
+        <div className="bg-white dark:bg-card backdrop-blur-sm rounded-2xl p-6 shadow-strong max-w-4xl mx-auto animate-scale-in opacity-0 animation-delay-1500">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
             
             {/* Resort/Villa Dropdown */}
             <div className="space-y-2">
-              <label className="text-sm font-medium text-muted-foreground flex items-center gap-2">
+              <label className="text-sm font-medium text-gray-700 dark:text-gray-300 flex items-center gap-2">
                 <MapPin size={16} />
                 Resort / Villa
               </label>
               <Select value={resort} onValueChange={setResort}>
-                <SelectTrigger className="h-12 border-0 bg-background/50">
+                <SelectTrigger className="h-12 border border-gray-200 dark:border-gray-700 bg-white dark:bg-input text-gray-900 dark:text-foreground">
                   <SelectValue placeholder="Select a resort" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="bg-white dark:bg-popover border border-gray-200 dark:border-gray-700">
                   <SelectItem value="kuhu-backwaters">Kuhu Backwaters Villa</SelectItem>
                   <SelectItem value="kuhu-hillside">Kuhu Hillside Resort</SelectItem>
                   <SelectItem value="kuhu-beachfront">Kuhu Beachfront Resort</SelectItem>
@@ -72,7 +72,7 @@ const Hero = () => {
 
             {/* Check-in Date */}
             <div className="space-y-2">
-              <label className="text-sm font-medium text-muted-foreground flex items-center gap-2">
+              <label className="text-sm font-medium text-gray-700 dark:text-gray-300 flex items-center gap-2">
                 <Calendar size={16} />
                 Check-in
               </label>
@@ -80,12 +80,12 @@ const Hero = () => {
                 <PopoverTrigger asChild>
                   <Button
                     variant="outline"
-                    className="h-12 justify-start text-left font-normal border-0 bg-background/50"
+                    className="h-12 justify-start text-left font-normal border border-gray-200 dark:border-gray-700 bg-white dark:bg-input text-gray-900 dark:text-foreground hover:bg-gray-50 dark:hover:bg-gray-800"
                   >
                     {checkIn ? format(checkIn, "MMM dd") : "Select date"}
                   </Button>
                 </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
+                <PopoverContent className="w-auto p-0 bg-white dark:bg-popover border border-gray-200 dark:border-gray-700" align="start">
                   <CalendarComponent
                     mode="single"
                     selected={checkIn}
@@ -99,7 +99,7 @@ const Hero = () => {
 
             {/* Check-out Date */}
             <div className="space-y-2">
-              <label className="text-sm font-medium text-muted-foreground flex items-center gap-2">
+              <label className="text-sm font-medium text-gray-700 dark:text-gray-300 flex items-center gap-2">
                 <Calendar size={16} />
                 Check-out
               </label>
@@ -107,12 +107,12 @@ const Hero = () => {
                 <PopoverTrigger asChild>
                   <Button
                     variant="outline"
-                    className="h-12 justify-start text-left font-normal border-0 bg-background/50"
+                    className="h-12 justify-start text-left font-normal border border-gray-200 dark:border-gray-700 bg-white dark:bg-input text-gray-900 dark:text-foreground hover:bg-gray-50 dark:hover:bg-gray-800"
                   >
                     {checkOut ? format(checkOut, "MMM dd") : "Select date"}
                   </Button>
                 </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
+                <PopoverContent className="w-auto p-0 bg-white dark:bg-popover border border-gray-200 dark:border-gray-700" align="start">
                   <CalendarComponent
                     mode="single"
                     selected={checkOut}
@@ -126,16 +126,16 @@ const Hero = () => {
 
             {/* Guests */}
             <div className="space-y-2">
-              <label className="text-sm font-medium text-muted-foreground flex items-center gap-2">
+              <label className="text-sm font-medium text-gray-700 dark:text-gray-300 flex items-center gap-2">
                 <Users size={16} />
                 Guests
               </label>
               <div className="flex gap-2">
                 <Select value={adults} onValueChange={setAdults}>
-                  <SelectTrigger className="h-12 border-0 bg-background/50">
+                  <SelectTrigger className="h-12 border border-gray-200 dark:border-gray-700 bg-white dark:bg-input text-gray-900 dark:text-foreground">
                     <SelectValue placeholder="Adults" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="bg-white dark:bg-popover border border-gray-200 dark:border-gray-700">
                     {[1,2,3,4,5,6].map(num => (
                       <SelectItem key={num} value={num.toString()}>
                         {num} Adult{num > 1 ? 's' : ''}
@@ -144,10 +144,10 @@ const Hero = () => {
                   </SelectContent>
                 </Select>
                 <Select value={children} onValueChange={setChildren}>
-                  <SelectTrigger className="h-12 border-0 bg-background/50">
+                  <SelectTrigger className="h-12 border border-gray-200 dark:border-gray-700 bg-white dark:bg-input text-gray-900 dark:text-foreground">
                     <SelectValue placeholder="Children" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="bg-white dark:bg-popover border border-gray-200 dark:border-gray-700">
                     {[0,1,2,3,4].map(num => (
                       <SelectItem key={num} value={num.toString()}>
                         {num} Child{num !== 1 ? 'ren' : ''}
