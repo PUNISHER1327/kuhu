@@ -1,8 +1,20 @@
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, Search, Calendar, Users, MapPin } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Calendar as CalendarComponent } from '@/components/ui/calendar';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { format } from 'date-fns';
+import { useState } from 'react';
 import heroImage from '@/assets/hero-bg.jpg';
 
 const Hero = () => {
+  const [checkIn, setCheckIn] = useState<Date>();
+  const [checkOut, setCheckOut] = useState<Date>();
+  const [adults, setAdults] = useState('2');
+  const [children, setChildren] = useState('0');
+  const [resort, setResort] = useState('');
+
   const scrollToNextSection = () => {
     const nextSection = document.querySelector('#about');
     if (nextSection) {
@@ -10,47 +22,153 @@ const Hero = () => {
     }
   };
 
-  const scrollToRooms = () => {
-    const roomsSection = document.querySelector('#rooms');
-    if (roomsSection) {
-      roomsSection.scrollIntoView({ behavior: 'smooth' });
-    }
+  const handleSearch = () => {
+    console.log('Search:', { resort, checkIn, checkOut, adults, children });
   };
 
   return (
     <section className="relative h-screen flex items-center justify-center overflow-hidden">
       {/* Background Image with Parallax Effect */}
       <div 
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat transform scale-105 parallax"
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat transform scale-105"
         style={{ backgroundImage: `url(${heroImage})` }}
       />
       
-      {/* Gradient Overlay */}
-      <div className="absolute inset-0 bg-gradient-hero" />
+      {/* Gradient Overlay for text readability */}
+      <div className="absolute inset-0 bg-black/30" />
 
-      {/* Content */}
-      <div className="relative z-10 text-center text-white px-6 animate-fade-in">
-        <h1 className="heading-luxury text-white mb-6 animate-slide-up">
-          Welcome to Kuhu
+      {/* Main Content */}
+      <div className="relative z-10 text-center text-white px-4 max-w-4xl mx-auto">
+        {/* Elegant Hero Heading */}
+        <h1 className="font-script text-6xl md:text-8xl lg:text-9xl text-white mb-8 animate-fade-in opacity-0 animation-delay-500">
+          Kuhu Resorts
         </h1>
-        <p className="text-xl md:text-2xl font-inter font-light mb-2 opacity-90 animate-slide-up">
-          Luxury in the Heart of Kerala
+        <p className="font-script text-2xl md:text-3xl text-white/90 mb-12 animate-fade-in opacity-0 animation-delay-1000">
+          ... since 2025
         </p>
-        <p className="text-lg font-inter mb-12 opacity-80 max-w-2xl mx-auto leading-relaxed animate-slide-up">
-          Experience unparalleled elegance where the pristine backwaters meet world-class hospitality, 
-          creating memories that last a lifetime in God's Own Country.
-        </p>
-        
-        <div className="flex flex-col sm:flex-row gap-6 justify-center animate-scale-in">
-          <Button className="btn-hero hover-glow">
-            Book Your Stay
-          </Button>
-          <Button 
-            onClick={scrollToRooms}
-            className="btn-ghost border-white text-white hover:bg-white hover:text-primary"
-          >
-            Explore Rooms
-          </Button>
+
+        {/* Luxury Search Bar */}
+        <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-6 shadow-strong max-w-4xl mx-auto animate-scale-in opacity-0 animation-delay-1500">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+            
+            {/* Resort/Villa Dropdown */}
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-muted-foreground flex items-center gap-2">
+                <MapPin size={16} />
+                Resort / Villa
+              </label>
+              <Select value={resort} onValueChange={setResort}>
+                <SelectTrigger className="h-12 border-0 bg-background/50">
+                  <SelectValue placeholder="Select a resort" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="kuhu-backwaters">Kuhu Backwaters Villa</SelectItem>
+                  <SelectItem value="kuhu-hillside">Kuhu Hillside Resort</SelectItem>
+                  <SelectItem value="kuhu-beachfront">Kuhu Beachfront Resort</SelectItem>
+                  <SelectItem value="kuhu-heritage">Kuhu Heritage Suite</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            {/* Check-in Date */}
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-muted-foreground flex items-center gap-2">
+                <Calendar size={16} />
+                Check-in
+              </label>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className="h-12 justify-start text-left font-normal border-0 bg-background/50"
+                  >
+                    {checkIn ? format(checkIn, "MMM dd") : "Select date"}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <CalendarComponent
+                    mode="single"
+                    selected={checkIn}
+                    onSelect={setCheckIn}
+                    initialFocus
+                    className="pointer-events-auto"
+                  />
+                </PopoverContent>
+              </Popover>
+            </div>
+
+            {/* Check-out Date */}
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-muted-foreground flex items-center gap-2">
+                <Calendar size={16} />
+                Check-out
+              </label>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className="h-12 justify-start text-left font-normal border-0 bg-background/50"
+                  >
+                    {checkOut ? format(checkOut, "MMM dd") : "Select date"}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <CalendarComponent
+                    mode="single"
+                    selected={checkOut}
+                    onSelect={setCheckOut}
+                    initialFocus
+                    className="pointer-events-auto"
+                  />
+                </PopoverContent>
+              </Popover>
+            </div>
+
+            {/* Guests */}
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-muted-foreground flex items-center gap-2">
+                <Users size={16} />
+                Guests
+              </label>
+              <div className="flex gap-2">
+                <Select value={adults} onValueChange={setAdults}>
+                  <SelectTrigger className="h-12 border-0 bg-background/50">
+                    <SelectValue placeholder="Adults" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {[1,2,3,4,5,6].map(num => (
+                      <SelectItem key={num} value={num.toString()}>
+                        {num} Adult{num > 1 ? 's' : ''}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <Select value={children} onValueChange={setChildren}>
+                  <SelectTrigger className="h-12 border-0 bg-background/50">
+                    <SelectValue placeholder="Children" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {[0,1,2,3,4].map(num => (
+                      <SelectItem key={num} value={num.toString()}>
+                        {num} Child{num !== 1 ? 'ren' : ''}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+          </div>
+
+          {/* Search Button */}
+          <div className="flex justify-center mt-6">
+            <Button 
+              onClick={handleSearch}
+              className="bg-primary hover:bg-primary-hover text-white px-8 py-3 h-12 rounded-full transition-all duration-300 hover:shadow-glow hover:scale-105"
+            >
+              <Search size={20} className="mr-2" />
+              Search Availability
+            </Button>
+          </div>
         </div>
       </div>
 
@@ -65,14 +183,6 @@ const Hero = () => {
           <ChevronDown size={24} className="animate-bounce" />
         </div>
       </button>
-
-      {/* Floating Elements */}
-      <div className="absolute top-1/4 left-10 w-20 h-20 bg-secondary/20 rounded-full animate-float" 
-           style={{ animationDelay: '0s' }} />
-      <div className="absolute top-1/3 right-16 w-12 h-12 bg-primary/30 rounded-full animate-float" 
-           style={{ animationDelay: '2s' }} />
-      <div className="absolute bottom-1/4 left-1/4 w-16 h-16 bg-accent/25 rounded-full animate-float" 
-           style={{ animationDelay: '4s' }} />
     </section>
   );
 };
