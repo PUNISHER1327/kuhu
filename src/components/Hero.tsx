@@ -6,7 +6,7 @@ import { Calendar as CalendarComponent } from '@/components/ui/calendar';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { format } from 'date-fns';
 import { useState } from 'react';
-import heroImage from '@/assets/hero-bg.jpg';
+import heroImage from '@/assets/hero-bg.mp4';
 
 const Hero = () => {
   const [checkIn, setCheckIn] = useState<Date>();
