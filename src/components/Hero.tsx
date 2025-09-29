@@ -28,11 +28,16 @@ const Hero = () => {
 
   return (
     <section className="relative h-screen flex items-center justify-center overflow-hidden">
-      {/* Background Image with Parallax Effect */}
-      <div 
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat transform scale-105"
-        style={{ backgroundImage: `url(${heroImage})` }}
+      {/* Background Video with Parallax Effect */}
+      <video
+        className="absolute inset-0 w-full h-full object-cover transform scale-105"
+        src={heroImage}
+        autoPlay
+        loop
+        muted
+        playsInline
       />
+
       
       {/* Gradient Overlay for text readability */}
       <div className="absolute inset-0 bg-black/30" />
