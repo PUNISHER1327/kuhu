@@ -1,9 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 import { Wifi, Car, Coffee, Bath, Bed, Users } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useLanguage } from '@/contexts/LanguageContext';
+import { useNavigate } from 'react-router-dom';
 import luxurySuiteImage from '@/assets/luxury-suite.jpg';
 
 const Rooms = () => {
+  const { language } = useLanguage();
+  const navigate = useNavigate();
   const sectionRef = useRef<HTMLElement>(null);
   const [selectedRoom, setSelectedRoom] = useState<number | null>(null);
 
@@ -31,60 +35,99 @@ const Rooms = () => {
     return () => observer.disconnect();
   }, []);
 
+  const t = {
+    en: {
+      subtitle: 'Accommodation',
+      title: 'Rooms & Suites',
+      description: 'Each room and suite at Kuhu is thoughtfully designed to provide the perfect blend of comfort, luxury, and authentic Kerala charm, ensuring an unforgettable stay.',
+      bookNow: 'Book Now',
+      viewDetails: 'View Details',
+      perNight: 'per night',
+      needHelp: 'Need Help Choosing?',
+      conciergeText: 'Our concierge team is available 24/7 to help you find the perfect accommodation for your stay.',
+      speakToConcierge: 'Speak to Concierge'
+    },
+    kn: {
+      subtitle: 'ವಸತಿ',
+      title: 'ಕೊಠಡಿಗಳು ಮತ್ತು ಸೂಟ್‌ಗಳು',
+      description: 'ಕುಹುದಲ್ಲಿನ ಪ್ರತಿಯೊಂದು ಕೊಠಡಿ ಮತ್ತು ಸೂಟ್ ಆರಾಮ, ಐಷಾರಾಮಿ ಮತ್ತು ಅಧಿಕೃತ ಕೇರಳ ಆಕರ್ಷಣೆಯ ಪರಿಪೂರ್ಣ ಮಿಶ್ರಣವನ್ನು ಒದಗಿಸಲು ಚಿಂತನಶೀಲವಾಗಿ ವಿನ್ಯಾಸಗೊಳಿಸಲಾಗಿದೆ, ಮರೆಯಲಾಗದ ವಾಸವನ್ನು ಖಚಿತಪಡಿಸುತ್ತದೆ.',
+      bookNow: 'ಈಗ ಬುಕ್ ಮಾಡಿ',
+      viewDetails: 'ವಿವರಗಳನ್ನು ನೋಡಿ',
+      perNight: 'ಪ್ರತಿ ರಾತ್ರಿ',
+      needHelp: 'ಆಯ್ಕೆ ಮಾಡಲು ಸಹಾಯ ಬೇಕೇ?',
+      conciergeText: 'ನಿಮ್ಮ ವಾಸಕ್ಕಾಗಿ ಪರಿಪೂರ್ಣ ವಸತಿ ಹುಡುಕಲು ನಮ್ಮ ಕಾನ್ಸಿಯರ್ಜ್ ತಂಡ 24/7 ಲಭ್ಯವಿದೆ.',
+      speakToConcierge: 'ಕಾನ್ಸಿಯರ್ಜ್ ಜೊತೆ ಮಾತನಾಡಿ'
+    }
+  };
+
+  const translations = t[language];
+
   const rooms = [
     {
       id: 1,
-      name: "Backwater Villa",
-      type: "Premium Suite",
+      name: language === 'kn' ? 'ಬ್ಯಾಕ್ವಾಟರ್ ವಿಲ್ಲಾ' : 'Backwater Villa',
+      type: language === 'kn' ? 'ಪ್ರೀಮಿಯಂ ಸೂಟ್' : 'Premium Suite',
       size: "75 sqm",
       guests: 2,
       price: "₹35,000",
-      period: "per night",
+      period: translations.perNight,
       image: luxurySuiteImage,
-      amenities: ["Private Pool", "Butler Service", "Backwater View", "King Bed"],
+      amenities: language === 'kn' 
+        ? ['ಖಾಸಗಿ ಪೂಲ್', 'ಬಟ್ಲರ್ ಸೇವೆ', 'ಬ್ಯಾಕ್ವಾಟರ್ ವೀಕ್ಷಣೆ', 'ಕಿಂಗ್ ಬೆಡ್']
+        : ['Private Pool', 'Butler Service', 'Backwater View', 'King Bed'],
       features: [
-        { icon: Wifi, label: "Free WiFi" },
-        { icon: Car, label: "Valet Parking" },
-        { icon: Coffee, label: "Mini Bar" },
-        { icon: Bath, label: "Luxury Bath" }
+        { icon: Wifi, label: language === 'kn' ? 'ಉಚಿತ ವೈಫೈ' : 'Free WiFi' },
+        { icon: Car, label: language === 'kn' ? 'ವ್ಯಾಲೆಟ್ ಪಾರ್ಕಿಂಗ್' : 'Valet Parking' },
+        { icon: Coffee, label: language === 'kn' ? 'ಮಿನಿ ಬಾರ್' : 'Mini Bar' },
+        { icon: Bath, label: language === 'kn' ? 'ಐಷಾರಾಮಿ ಸ್ನಾನಗೃಹ' : 'Luxury Bath' }
       ],
-      description: "Indulge in pure luxury with our premier backwater villa featuring panoramic views of Kerala's pristine waters."
+      description: language === 'kn'
+        ? 'ಕೇರಳದ ಪ್ರಾಚೀನ ನೀರಿನ ವಿಹಂಗಮ ನೋಟಗಳನ್ನು ಹೊಂದಿರುವ ನಮ್ಮ ಪ್ರಧಾನ ಬ್ಯಾಕ್ವಾಟರ್ ವಿಲ್ಲಾದಲ್ಲಿ ಶುದ್ಧ ಐಷಾರಾಮಿಯಲ್ಲಿ ಮುಳುಗಿ.'
+        : 'Indulge in pure luxury with our premier backwater villa featuring panoramic views of Kerala\'s pristine waters.'
     },
     {
       id: 2,
-      name: "Garden Pavilion",
-      type: "Deluxe Room",
+      name: language === 'kn' ? 'ಗಾರ್ಡನ್ ಪೆವಿಲಿಯನ್' : 'Garden Pavilion',
+      type: language === 'kn' ? 'ಡಿಲಕ್ಸ್ ರೂಮ್' : 'Deluxe Room',
       size: "55 sqm",
       guests: 2,
       price: "₹22,000",
-      period: "per night",
+      period: translations.perNight,
       image: luxurySuiteImage,
-      amenities: ["Garden View", "Balcony", "Marble Bath", "Queen Bed"],
+      amenities: language === 'kn'
+        ? ['ತೋಟದ ನೋಟ', 'ಬಾಲ್ಕನಿ', 'ಮಾರ್ಬಲ್ ಸ್ನಾನಗೃಹ', 'ಕ್ವೀನ್ ಬೆಡ್']
+        : ['Garden View', 'Balcony', 'Marble Bath', 'Queen Bed'],
       features: [
-        { icon: Wifi, label: "Free WiFi" },
-        { icon: Coffee, label: "Coffee Machine" },
-        { icon: Bath, label: "Rain Shower" },
-        { icon: Bed, label: "Premium Bedding" }
+        { icon: Wifi, label: language === 'kn' ? 'ಉಚಿತ ವೈಫೈ' : 'Free WiFi' },
+        { icon: Coffee, label: language === 'kn' ? 'ಕಾಫಿ ಯಂತ್ರ' : 'Coffee Machine' },
+        { icon: Bath, label: language === 'kn' ? 'ಮಳೆ ಸ್ನಾನ' : 'Rain Shower' },
+        { icon: Bed, label: language === 'kn' ? 'ಪ್ರೀಮಿಯಂ ಬೆಡ್ಡಿಂಗ್' : 'Premium Bedding' }
       ],
-      description: "Relax in elegant comfort surrounded by lush tropical gardens and traditional Kerala architecture."
+      description: language === 'kn'
+        ? 'ಸೊಂಪಾದ ಉಷ್ಣವಲಯದ ತೋಟಗಳು ಮತ್ತು ಸಾಂಪ್ರದಾಯಿಕ ಕೇರಳ ವಾಸ್ತುಶಿಲ್ಪದಿಂದ ಸುತ್ತುವರಿದ ಸೊಗಸಾದ ಸೌಕರ್ಯದಲ್ಲಿ ವಿಶ್ರಾಂತಿ ಪಡೆಯಿರಿ.'
+        : 'Relax in elegant comfort surrounded by lush tropical gardens and traditional Kerala architecture.'
     },
     {
       id: 3,
-      name: "Heritage Suite",
-      type: "Family Suite",
+      name: language === 'kn' ? 'ಪರಂಪರೆ ಸೂಟ್' : 'Heritage Suite',
+      type: language === 'kn' ? 'ಕುಟುಂಬ ಸೂಟ್' : 'Family Suite',
       size: "95 sqm",
       guests: 4,
       price: "₹45,000",
-      period: "per night",
+      period: translations.perNight,
       image: luxurySuiteImage,
-      amenities: ["Two Bedrooms", "Living Area", "Kitchenette", "Cultural Decor"],
+      amenities: language === 'kn'
+        ? ['ಎರಡು ಮಲಗುವ ಕೋಣೆಗಳು', 'ವಾಸದ ಪ್ರದೇಶ', 'ಕಿಚನೆಟ್', 'ಸಾಂಸ್ಕೃತಿಕ ಅಲಂಕಾರ']
+        : ['Two Bedrooms', 'Living Area', 'Kitchenette', 'Cultural Decor'],
       features: [
-        { icon: Users, label: "Family Room" },
-        { icon: Car, label: "Priority Parking" },
-        { icon: Coffee, label: "Full Kitchen" },
-        { icon: Bath, label: "Dual Bathrooms" }
+        { icon: Users, label: language === 'kn' ? 'ಕುಟುಂಬ ಕೊಠಡಿ' : 'Family Room' },
+        { icon: Car, label: language === 'kn' ? 'ಆದ್ಯತೆ ಪಾರ್ಕಿಂಗ್' : 'Priority Parking' },
+        { icon: Coffee, label: language === 'kn' ? 'ಪೂರ್ಣ ಅಡಿಗೆ' : 'Full Kitchen' },
+        { icon: Bath, label: language === 'kn' ? 'ಡ್ಯುಯಲ್ ಸ್ನಾನಗೃಹಗಳು' : 'Dual Bathrooms' }
       ],
-      description: "Experience Kerala's rich heritage in our spacious family suite designed with traditional elements and modern comfort."
+      description: language === 'kn'
+        ? 'ಸಾಂಪ್ರದಾಯಿಕ ಅಂಶಗಳು ಮತ್ತು ಆಧುನಿಕ ಸೌಕರ್ಯದೊಂದಿಗೆ ವಿನ್ಯಾಸಗೊಳಿಸಿದ ನಮ್ಮ ವಿಶಾಲವಾದ ಕುಟುಂಬ ಸೂಟ್‌ನಲ್ಲಿ ಕೇರಳದ ಶ್ರೀಮಂತ ಪರಂಪರೆಯನ್ನು ಅನುಭವಿಸಿ.'
+        : 'Experience Kerala\'s rich heritage in our spacious family suite designed with traditional elements and modern comfort.'
     }
   ];
 
@@ -99,14 +142,13 @@ const Rooms = () => {
         {/* Section Header */}
         <div className="text-center mb-16 animate-on-scroll opacity-0">
           <span className="text-secondary font-inter font-semibold tracking-wider uppercase text-sm">
-            Accommodation
+            {translations.subtitle}
           </span>
           <h2 className="subheading-luxury mt-4 mb-6">
-            Rooms & Suites
+            {translations.title}
           </h2>
           <p className="body-luxury text-lg max-w-3xl mx-auto">
-            Each room and suite at Kuhu is thoughtfully designed to provide the perfect blend of comfort, 
-            luxury, and authentic Kerala charm, ensuring an unforgettable stay.
+            {translations.description}
           </p>
         </div>
 
@@ -199,13 +241,14 @@ const Rooms = () => {
                     onClick={() => handleBookRoom(room.id)}
                     className="w-full btn-hero"
                   >
-                    Book Now
+                    {translations.bookNow}
                   </Button>
                   <Button 
+                    onClick={() => navigate('/rooms')}
                     variant="outline"
                     className="w-full border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-smooth"
                   >
-                    View Details
+                    {translations.viewDetails}
                   </Button>
                 </div>
               </div>
@@ -217,13 +260,13 @@ const Rooms = () => {
         <div className="text-center mt-16 animate-on-scroll opacity-0">
           <div className="luxury-card p-8 inline-block">
             <h3 className="font-playfair font-semibold text-2xl mb-4 text-foreground">
-              Need Help Choosing?
+              {translations.needHelp}
             </h3>
             <p className="body-luxury mb-6 max-w-md">
-              Our concierge team is available 24/7 to help you find the perfect accommodation for your stay.
+              {translations.conciergeText}
             </p>
             <Button className="btn-secondary">
-              Speak to Concierge
+              {translations.speakToConcierge}
             </Button>
           </div>
         </div>

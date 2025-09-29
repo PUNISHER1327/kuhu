@@ -6,9 +6,11 @@ import { Calendar as CalendarComponent } from '@/components/ui/calendar';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { format } from 'date-fns';
 import { useState } from 'react';
+import { useLanguage } from '@/contexts/LanguageContext';
 import heroImage from '@/assets/hero-bg.mp4';
 
 const Hero = () => {
+  const { language } = useLanguage();
   const [checkIn, setCheckIn] = useState<Date>();
   const [checkOut, setCheckOut] = useState<Date>();
   const [adults, setAdults] = useState('2');
@@ -25,6 +27,51 @@ const Hero = () => {
   const handleSearch = () => {
     console.log('Search:', { resort, checkIn, checkOut, adults, children });
   };
+
+  const t = {
+    en: {
+      discover: 'Discover More',
+      resort: 'Resort / Villa',
+      selectResort: 'Select a resort',
+      checkIn: 'Check-in',
+      checkOut: 'Check-out',
+      selectDate: 'Select date',
+      guests: 'Guests',
+      adults: 'Adult',
+      adults_plural: 'Adults',
+      children: 'Child',
+      children_plural: 'Children',
+      search: 'Search Availability',
+      resorts: {
+        backwaters: 'Kuhu Backwaters Villa',
+        hillside: 'Kuhu Hillside Resort',
+        beachfront: 'Kuhu Beachfront Resort',
+        heritage: 'Kuhu Heritage Suite'
+      }
+    },
+    kn: {
+      discover: 'ಇನ್ನಷ್ಟು ಅನ್ವೇಷಿಸಿ',
+      resort: 'ರೆಸಾರ್ಟ್ / ವಿಲ್ಲಾ',
+      selectResort: 'ರೆಸಾರ್ಟ್ ಆಯ್ಕೆಮಾಡಿ',
+      checkIn: 'ಚೆಕ್-ಇನ್',
+      checkOut: 'ಚೆಕ್-ಔಟ್',
+      selectDate: 'ದಿನಾಂಕ ಆಯ್ಕೆಮಾಡಿ',
+      guests: 'ಅತಿಥಿಗಳು',
+      adults: 'ವಯಸ್ಕ',
+      adults_plural: 'ವಯಸ್ಕರು',
+      children: 'ಮಗು',
+      children_plural: 'ಮಕ್ಕಳು',
+      search: 'ಲಭ್ಯತೆ ಹುಡುಕಿ',
+      resorts: {
+        backwaters: 'ಕುಹು ಬ್ಯಾಕ್ವಾಟರ್ಸ್ ವಿಲ್ಲಾ',
+        hillside: 'ಕುಹು ಹಿಲ್ಸೈಡ್ ರೆಸಾರ್ಟ್',
+        beachfront: 'ಕುಹು ಬೀಚ್ಫ್ರಂಟ್ ರೆಸಾರ್ಟ್',
+        heritage: 'ಕುಹು ಹೆರಿಟೇಜ್ ಸೂಟ್'
+      }
+    }
+  };
+
+  const translations = t[language];
 
   return (
     <section className="relative h-screen flex items-center justify-center overflow-hidden">
@@ -60,17 +107,17 @@ const Hero = () => {
             <div className="space-y-2">
               <label className="text-sm font-medium text-gray-700 dark:text-gray-300 flex items-center gap-2">
                 <MapPin size={16} />
-                Resort / Villa
+                {translations.resort}
               </label>
               <Select value={resort} onValueChange={setResort}>
                 <SelectTrigger className="h-12 border border-gray-200 dark:border-gray-700 bg-white dark:bg-input text-gray-900 dark:text-foreground">
-                  <SelectValue placeholder="Select a resort" />
+                  <SelectValue placeholder={translations.selectResort} />
                 </SelectTrigger>
                 <SelectContent className="bg-white dark:bg-popover border border-gray-200 dark:border-gray-700">
-                  <SelectItem value="kuhu-backwaters">Kuhu Backwaters Villa</SelectItem>
-                  <SelectItem value="kuhu-hillside">Kuhu Hillside Resort</SelectItem>
-                  <SelectItem value="kuhu-beachfront">Kuhu Beachfront Resort</SelectItem>
-                  <SelectItem value="kuhu-heritage">Kuhu Heritage Suite</SelectItem>
+                  <SelectItem value="kuhu-backwaters">{translations.resorts.backwaters}</SelectItem>
+                  <SelectItem value="kuhu-hillside">{translations.resorts.hillside}</SelectItem>
+                  <SelectItem value="kuhu-beachfront">{translations.resorts.beachfront}</SelectItem>
+                  <SelectItem value="kuhu-heritage">{translations.resorts.heritage}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -79,7 +126,7 @@ const Hero = () => {
             <div className="space-y-2">
               <label className="text-sm font-medium text-gray-700 dark:text-gray-300 flex items-center gap-2">
                 <Calendar size={16} />
-                Check-in
+                {translations.checkIn}
               </label>
               <Popover>
                 <PopoverTrigger asChild>
@@ -87,7 +134,7 @@ const Hero = () => {
                     variant="outline"
                     className="h-12 justify-start text-left font-normal border border-gray-200 dark:border-gray-700 bg-white dark:bg-input text-gray-900 dark:text-foreground hover:bg-gray-50 dark:hover:bg-gray-800"
                   >
-                    {checkIn ? format(checkIn, "MMM dd") : "Select date"}
+                    {checkIn ? format(checkIn, "MMM dd") : translations.selectDate}
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent className="w-auto p-0 bg-white dark:bg-popover border border-gray-200 dark:border-gray-700" align="start">
@@ -106,7 +153,7 @@ const Hero = () => {
             <div className="space-y-2">
               <label className="text-sm font-medium text-gray-700 dark:text-gray-300 flex items-center gap-2">
                 <Calendar size={16} />
-                Check-out
+                {translations.checkOut}
               </label>
               <Popover>
                 <PopoverTrigger asChild>
@@ -114,7 +161,7 @@ const Hero = () => {
                     variant="outline"
                     className="h-12 justify-start text-left font-normal border border-gray-200 dark:border-gray-700 bg-white dark:bg-input text-gray-900 dark:text-foreground hover:bg-gray-50 dark:hover:bg-gray-800"
                   >
-                    {checkOut ? format(checkOut, "MMM dd") : "Select date"}
+                    {checkOut ? format(checkOut, "MMM dd") : translations.selectDate}
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent className="w-auto p-0 bg-white dark:bg-popover border border-gray-200 dark:border-gray-700" align="start">
@@ -133,29 +180,29 @@ const Hero = () => {
             <div className="space-y-2">
               <label className="text-sm font-medium text-gray-700 dark:text-gray-300 flex items-center gap-2">
                 <Users size={16} />
-                Guests
+                {translations.guests}
               </label>
               <div className="flex gap-2">
                 <Select value={adults} onValueChange={setAdults}>
                   <SelectTrigger className="h-12 border border-gray-200 dark:border-gray-700 bg-white dark:bg-input text-gray-900 dark:text-foreground">
-                    <SelectValue placeholder="Adults" />
+                    <SelectValue placeholder={translations.adults_plural} />
                   </SelectTrigger>
                   <SelectContent className="bg-white dark:bg-popover border border-gray-200 dark:border-gray-700">
                     {[1,2,3,4,5,6].map(num => (
                       <SelectItem key={num} value={num.toString()}>
-                        {num} Adult{num > 1 ? 's' : ''}
+                        {num} {num > 1 ? translations.adults_plural : translations.adults}
                       </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
                 <Select value={children} onValueChange={setChildren}>
                   <SelectTrigger className="h-12 border border-gray-200 dark:border-gray-700 bg-white dark:bg-input text-gray-900 dark:text-foreground">
-                    <SelectValue placeholder="Children" />
+                    <SelectValue placeholder={translations.children_plural} />
                   </SelectTrigger>
                   <SelectContent className="bg-white dark:bg-popover border border-gray-200 dark:border-gray-700">
                     {[0,1,2,3,4].map(num => (
                       <SelectItem key={num} value={num.toString()}>
-                        {num} Child{num !== 1 ? 'ren' : ''}
+                        {num} {num !== 1 ? translations.children_plural : translations.children}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -171,7 +218,7 @@ const Hero = () => {
               className="bg-primary hover:bg-primary-hover text-white px-8 py-3 h-12 rounded-full transition-all duration-300 hover:shadow-glow hover:scale-105"
             >
               <Search size={20} className="mr-2" />
-              Search Availability
+              {translations.search}
             </Button>
           </div>
         </div>
@@ -184,7 +231,7 @@ const Hero = () => {
         aria-label="Scroll to next section"
       >
         <div className="flex flex-col items-center">
-          <span className="text-sm font-inter mb-2 opacity-80">Discover More</span>
+          <span className="text-sm font-inter mb-2 opacity-80">{translations.discover}</span>
           <ChevronDown size={24} className="animate-bounce" />
         </div>
       </button>
